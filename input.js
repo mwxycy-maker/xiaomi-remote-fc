@@ -2,7 +2,11 @@
   "use strict";
 
   const STORAGE_KEY = "fc-remote-mapping-v1";
+  const DIRECTION_LOCK_KEY = "fc-remote-direction-lock";
   const ACTIONS = ["up", "down", "left", "right", "a", "b", "start", "select"];
+  const DIRECTIONS = new Set(["up", "down", "left", "right"]);
+  const DOUBLE_TAP_MS = 450;
+  const DIRECTION_LOCK_SOURCE = "direction-lock";
   const KEYBOARD = {
     KeyW: "up", KeyS: "down", KeyA: "left", KeyD: "right",
     KeyJ: "a", KeyK: "b", Enter: "start", ShiftRight: "select",
@@ -21,11 +25,14 @@
   }
 
   class RemoteInput {
-    constructor({ onMapping, onProbe, onCalibration, onAction, onWarning }) {
-      this.callbacks = { onMapping, onProbe, onCalibration, onAction, onWarning };
+    constructor({ onMapping, onProbe, onCalibration, onAction, onWarning, onDirectionLock }) {
+      this.callbacks = { onMapping, onProbe, onCalibration, onAction, onWarning, onDirectionLock };
       this.mapping = this.readMapping();
       this.pressed = new Map();
       this.actionHolds = new Map();
+      this.directionLockEnabled = this.readDirectionLock();
+      this.lockedDirection = null;
+      this.lastDirectionTap = null;
       this.calibration = null;
       this.timeout = null;
       this.nes = null;
@@ -37,6 +44,7 @@
         if (document.hidden) this.releaseAll();
       });
       this.callbacks.onMapping(this.mapping);
+      this.reportDirectionLock();
     }
 
     readMapping() {
@@ -52,6 +60,55 @@
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.mapping)); }
       catch { this.callbacks.onWarning("浏览器未允许保存设置，本次打开期间仍可使用。"); }
       this.callbacks.onMapping(this.mapping);
+    }
+
+    readDirectionLock() {
+      try { return localStorage.getItem(DIRECTION_LOCK_KEY) === "1"; }
+      catch { return false; }
+    }
+
+    setDirectionLockEnabled(value) {
+      this.directionLockEnabled = value;
+      this.clearDirectionLock();
+      try { localStorage.setItem(DIRECTION_LOCK_KEY, value ? "1" : "0"); }
+      catch { /* Keep the setting for this session. */ }
+    }
+
+    reportDirectionLock() {
+      this.callbacks.onDirectionLock(this.directionLockEnabled, this.lockedDirection);
+    }
+
+    clearDirectionLock() {
+      this.lastDirectionTap = null;
+      const action = this.lockedDirection;
+      this.lockedDirection = null;
+      if (action) this.release(action, DIRECTION_LOCK_SOURCE);
+      this.reportDirectionLock();
+    }
+
+    handleDirectionLock(action, id, time) {
+      if (!this.directionLockEnabled) return;
+      if (!DIRECTIONS.has(action)) {
+        this.lastDirectionTap = null;
+        return;
+      }
+      if (this.lockedDirection) {
+        this.clearDirectionLock();
+        return;
+      }
+      if (this.mapping[action] !== id) {
+        this.lastDirectionTap = null;
+        return;
+      }
+      const lastTap = this.lastDirectionTap;
+      if (lastTap?.action === action && time - lastTap.time <= DOUBLE_TAP_MS) {
+        this.lastDirectionTap = null;
+        this.lockedDirection = action;
+        this.hold(action, DIRECTION_LOCK_SOURCE);
+        this.reportDirectionLock();
+      } else {
+        this.lastDirectionTap = { action, time };
+      }
     }
 
     setNes(nes) {
@@ -145,9 +202,10 @@
       const action = this.resolve(id);
       if (!action) return;
       event.preventDefault();
-      if (!this.enabled || !this.nes || this.pressed.has(id)) return;
+      if (!this.enabled || !this.nes || event.repeat || this.pressed.has(id)) return;
       this.pressed.set(id, action);
       this.hold(action, id);
+      this.handleDirectionLock(action, id, event.timeStamp);
     }
 
     keyUp(event) {
@@ -206,6 +264,7 @@
       }
       this.actionHolds.clear();
       this.pressed.clear();
+      this.clearDirectionLock();
     }
 
     button(action) {

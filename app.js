@@ -17,6 +17,7 @@
   const muteButton = $("mute-button");
   const fullButton = $("full-button");
   const romFile = $("rom-file");
+  const directionLock = $("direction-lock");
   let loaded = false;
   let paused = false;
   let muted = false;
@@ -81,6 +82,10 @@
       if (indicator) indicator.classList.toggle("pressed", down);
     },
     onWarning: warn,
+    onDirectionLock: (enabled, direction) => {
+      directionLock.checked = enabled;
+      $("direction-lock-status").textContent = direction ? `已锁定 ${labels[direction]}` : "";
+    },
   });
   input.setNes(browser.nes);
 
@@ -185,6 +190,7 @@
   $("calibrate-button").addEventListener("click", () => input.beginCalibration());
   $("cancel-button").addEventListener("click", () => input.cancelCalibration());
   $("skip-button").addEventListener("click", () => input.skipStep());
+  directionLock.addEventListener("change", () => input.setDirectionLockEnabled(directionLock.checked));
   $("clear-button").addEventListener("click", () => {
     input.resetMapping();
     warn("已恢复这只小米遥控器的实测预设。");
