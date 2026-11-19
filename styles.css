@@ -56,13 +56,7 @@ h2 { margin:0; font-size:17px; letter-spacing:-.02em; }
 .remote-right { margin-left:auto; width:47px; }
 .ab-key { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:#27343b; color:#d7e2dd; box-shadow:0 2px 2px #526269; font-weight:900; }
 .ab-key.pressed { background:var(--accent); color:#202831; }
-.dpad .pressed { color:var(--mint); text-shadow:0 0 7px var(--mint); }
 .controller-card .hint { margin:0; line-height:1.55; }
-.direction-lock { display:flex; flex-wrap:wrap; align-items:center; column-gap:12px; margin-top:15px; padding-top:12px; border-top:1px solid var(--line); }
-.direction-lock label { display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-weight:700; font-size:13px; }
-.direction-lock input { margin:0; accent-color:var(--mint); }
-#direction-lock-status { color:var(--mint); font-size:12px; }
-.direction-lock p { margin:5px 0 0; flex-basis:100%; }
 .mapping-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:18px 0; }
 .mapping-item { border:1px solid #3d4c5a; background:#19232e; padding:8px 5px; border-radius:7px; text-align:center; min-width:0; }
 .mapping-item strong { display:block; font-size:12px; color:#d3e1e5; }
