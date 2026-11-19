@@ -7,6 +7,11 @@
     KeyW: "up", KeyS: "down", KeyA: "left", KeyD: "right",
     KeyJ: "a", KeyK: "b", Enter: "start", ShiftRight: "select",
   };
+  // Observed on the connected Xiaomi BLE remote while held horizontally.
+  const XIAOMI_PRESET = {
+    up: "ArrowRight", down: "ArrowLeft", left: "ArrowUp", right: "ArrowDown",
+    a: "Backquote", b: "ContextMenu", start: "Home",
+  };
 
   function eventId(event) {
     if (event.code && event.code !== "Unidentified") return event.code;
@@ -40,7 +45,7 @@
         if (value && typeof value === "object" && ACTIONS.every((action) =>
           !value[action] || typeof value[action] === "string")) return value;
       } catch { /* Private browsing can block storage. */ }
-      return {};
+      return { ...XIAOMI_PRESET };
     }
 
     saveMapping() {
@@ -107,7 +112,7 @@
     resetMapping() {
       this.cancelCalibration();
       this.releaseAll();
-      this.mapping = {};
+      this.mapping = { ...XIAOMI_PRESET };
       try { localStorage.removeItem(STORAGE_KEY); } catch { /* Ignore. */ }
       this.callbacks.onMapping(this.mapping);
     }

@@ -5,7 +5,7 @@
 ## 使用
 
 1. 下载整个仓库，双击 `index.html`，建议用 Chrome 打开。
-2. 点击「开始校准」，按提示依次按横握方向、A、B、Start、Select。前 6 个键必设；Start、Select 可跳过并用键盘操作。
+2. 页面已预置实测键位：横握方向环、TV=A、菜单=B、Home=Start。若你的遥控器键码不同，点击「开始校准」重新设定。Select 暂未预置，可在校准时指定，或用键盘右 Shift。
 3. 选择或拖入你自己的 `.nes` 文件。游戏文件只在本机读取，不会上传。
 
 键盘备用键位：W A S D 方向，J=A，K=B，Enter=Start，右 Shift=Select。可暂停、重开、静音或全屏。

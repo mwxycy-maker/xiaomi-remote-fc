@@ -67,7 +67,7 @@
 
         <section class="card calibration-card">
           <div class="section-title"><span class="section-index">02</span><h2>按键校准</h2></div>
-          <p>每只遥控器的键码可能不同，首次使用请依次按 8 个键。</p>
+          <p>已预置这只遥控器的实测键位。若按键不一致，可重新校准。</p>
           <div id="mapping-grid" class="mapping-grid" aria-label="当前按键映射"></div>
           <div id="calibration-prompt" class="calibration-prompt" hidden>
             <span id="calibration-count">1 / 8</span>
@@ -78,7 +78,7 @@
             <button id="calibrate-button" class="accent-button" type="button">开始校准</button>
             <button id="skip-button" type="button" hidden>跳过此键</button>
             <button id="cancel-button" type="button" hidden>取消</button>
-            <button id="clear-button" type="button">清除映射</button>
+            <button id="clear-button" type="button">恢复预设</button>
           </div>
           <div class="probe">最近收到：<code id="last-key">还没有按键</code></div>
           <p id="input-warning" class="input-warning" role="status"></p>

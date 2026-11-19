@@ -187,7 +187,7 @@
   $("skip-button").addEventListener("click", () => input.skipStep());
   $("clear-button").addEventListener("click", () => {
     input.resetMapping();
-    warn("已清除遥控器映射。电脑键盘仍可使用。");
+    warn("已恢复这只小米遥控器的实测预设。");
   });
 
   document.querySelectorAll("[data-button]").forEach((button) => {
