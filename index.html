@@ -7,6 +7,7 @@
   <title>横握遥控器 · FC 游戏机</title>
   <link rel="stylesheet" href="styles.css">
   <script defer src="vendor/jsnes.min.js"></script>
+  <script defer src="remote-keys.js"></script>
   <script defer src="input.js"></script>
   <script defer src="app.js"></script>
 </head>
@@ -14,7 +15,10 @@
   <div class="shell">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">F<span>C</span></span><span>客厅游戏机</span></div>
-      <span class="device-chip"><span class="status-dot"></span>适配小米遥控器 · 横握模式</span>
+      <div class="topbar-actions">
+        <span class="device-chip"><span class="status-dot"></span>适配小米遥控器 · 横握模式</span>
+        <a class="snake-link" href="snake.html">玩贪吃蛇 <span aria-hidden="true">↗</span></a>
+      </div>
     </header>
 
     <main class="layout">

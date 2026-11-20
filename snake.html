@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>夜行果园 · 贪吃蛇</title>
+  <link rel="stylesheet" href="snake.css">
+  <script defer src="remote-keys.js"></script>
+  <script defer src="snake.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="cabinet-name"><span aria-hidden="true" class="cabinet-icon">✦</span> 客厅游戏机</div>
+    <a href="index.html">返回 FC 游戏 <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="layout">
+    <section class="arcade" aria-label="贪吃蛇游戏">
+      <div class="scorebar">
+        <div class="game-name"><span class="apple-icon" aria-hidden="true"></span> 贪吃蛇</div>
+        <dl class="scoreboard">
+          <div><dt>分数</dt><dd id="score">00</dd></div>
+          <div><dt>最高</dt><dd id="best">00</dd></div>
+        </dl>
+      </div>
+      <div class="playfield">
+        <canvas id="board" width="480" height="360" aria-label="夜行果园棋盘"></canvas>
+        <div class="screen-card" id="screen-card" data-screen="ready">
+          <h1 id="screen-title">夜行果园</h1>
+          <p id="screen-copy">吃苹果，别撞墙。</p>
+          <button type="button" id="screen-action">开始游戏</button>
+        </div>
+      </div>
+      <div class="arcade-footer">
+        <p id="game-status" role="status">等待开始</p>
+        <button type="button" id="pause-action" disabled>暂停</button>
+      </div>
+    </section>
+
+    <aside class="control-panel" aria-label="操作说明">
+      <h2>横着拿，<br>用方向环转弯。</h2>
+      <p class="control-intro">小蛇会自己往前走。吃一个苹果得一分，吃得越多，跑得越快。</p>
+      <div class="pad" aria-label="屏幕方向键">
+        <button class="pad-up" type="button" data-turn="up" aria-label="向上">↑</button>
+        <button class="pad-left" type="button" data-turn="left" aria-label="向左">←</button>
+        <span aria-hidden="true" class="pad-center">✦</span>
+        <button class="pad-right" type="button" data-turn="right" aria-label="向右">→</button>
+        <button class="pad-down" type="button" data-turn="down" aria-label="向下">↓</button>
+      </div>
+      <dl class="control-list">
+        <div><dt><kbd>TV</kbd> <span>或</span> <kbd>Home</kbd></dt><dd>开始 / 再玩</dd></div>
+        <div><dt><kbd>菜单</kbd></dt><dd>暂停 / 继续</dd></div>
+      </dl>
+      <p class="keyboard-note">电脑键盘用 <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 转弯，<kbd>空格</kbd> 开始或暂停。</p>
+    </aside>
+  </main>
+</body>
+</html>

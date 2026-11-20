@@ -1,25 +1,13 @@
 (() => {
   "use strict";
 
+  const { preset: XIAOMI_PRESET, eventId } = window.XiaomiRemoteKeys;
   const STORAGE_KEY = "fc-remote-mapping-v1";
   const ACTIONS = ["up", "down", "left", "right", "a", "b", "start", "select"];
   const KEYBOARD = {
     KeyW: "up", KeyS: "down", KeyA: "left", KeyD: "right",
     KeyJ: "a", KeyK: "b", Enter: "start", ShiftRight: "select",
   };
-  // Observed on the connected Xiaomi BLE remote while held horizontally.
-  const XIAOMI_PRESET = {
-    up: "ArrowRight", down: "ArrowLeft", left: "ArrowUp", right: "ArrowDown",
-    a: "Backquote", b: "ContextMenu", start: "Home",
-  };
-
-  function eventId(event) {
-    if (event.code && event.code !== "Unidentified") return event.code;
-    if (event.key && event.key !== "Unidentified" && event.key !== "Dead") return `key:${event.key}`;
-    if (event.keyCode) return `legacy:${event.keyCode}`;
-    return null;
-  }
-
   class RemoteInput {
     constructor({ onMapping, onProbe, onCalibration, onAction, onWarning }) {
       this.callbacks = { onMapping, onProbe, onCalibration, onAction, onWarning };
